@@ -1,4 +1,4 @@
-# BNO085_NEOPIXEL サンプル
+# NEOPIXEL サンプル
 
 このプロジェクトは、Adafruit NeoPixelと自作SmartLEDライブラリを使い、LEDの状態（初期化中・エラー・実行中）を色で表示するサンプルです。
 
@@ -28,32 +28,31 @@ Adafruit NeoPixel@^1.15.1
 ## main.cpp のポイント
 
 ```cpp
-  #include <Arduino.h>
-  #include <SmartLED.h>
+#include <Arduino.h>
+#include <SmartLED.h>
 
-  SmartLED statusLED;
+SmartLED SLED;
 
-  void setup() {
-    Serial.begin(115200);
+void setup() {
+  Serial.begin(115200);
+  SLED.set(SLED_Init);
+  delay(1000);
+}
 
-    statusLED.setState(SLED_Init);
-    delay(1000);
-  }
-
-  void loop() {
-    statusLED.setState(SLED_Run);
-    delay(1000);
-    statusLED.setState(SLED_Error);
-    delay(1000);
-    Serial.println("reset");
-  }
+void loop() {
+  SLED.set(SLED_Run);
+  delay(1000);
+  SLED.set(SLED_Error);
+  delay(1000);
+  Serial.println("reset");
+}
 ```
 
 ## SmartLEDライブラリについて
 
-- `statusLED.setState(SLED_Init);` : 初期化中（黄色）
-- `statusLED.setState(SLED_Run);` : データ出力中（緑）
-- `statusLED.setState(SLED_Error);` : エラー（赤）
+- `SLED.set(SLED_Init);` : 初期化中（黄色）
+- `SLED.set(SLED_Run);` : データ出力中（緑）
+- `SLED.set(SLED_Error);` : エラー（赤）
 
 ---
 

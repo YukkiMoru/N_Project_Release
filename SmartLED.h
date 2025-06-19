@@ -3,7 +3,6 @@
 
 // 必要に応じて値を変更
 #define SLED_NUMPIXELS  1
-#define SLED_PIN        6
 #define SLED_BRIGHTNESS 20
 
 enum SmartLEDState {
@@ -14,12 +13,16 @@ enum SmartLEDState {
 
 class SmartLED {
 public:
-    SmartLED() : _pixels(SLED_NUMPIXELS, SLED_PIN, NEO_GRB + NEO_KHZ800), _state(SLED_Init) {
+    SmartLED() : _pixels(SLED_NUMPIXELS, PIN_NEOPIXEL, NEO_GRB + NEO_KHZ800), _state(SLED_Init) {
+        #if defined(NEOPIXEL_POWER)
+            pinMode(NEOPIXEL_POWER, OUTPUT);
+            digitalWrite(NEOPIXEL_POWER, HIGH);
+        #endif
         _pixels.begin();
         _pixels.setBrightness(SLED_BRIGHTNESS);
         update();
     }
-    void setState(SmartLEDState state) {
+    void set(SmartLEDState state) {
         if (_state != state) {
             _state = state;
             update();
@@ -31,7 +34,7 @@ private:
     void update() {
         uint32_t color = 0;
         switch (_state) {
-            case SLED_Init:  color = _pixels.Color(255, 80, 0); break;
+            case SLED_Init:  color = _pixels.Color(255, 255, 0); break;
             case SLED_Error: color = _pixels.Color(255, 0, 0); break;
             case SLED_Run:   color = _pixels.Color(0, 255, 0); break;
         }
