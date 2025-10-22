@@ -23,10 +23,8 @@ public:
     }
 
     void set(SmartLEDState state) {
-        if (_state != state) {
-            _state = state;
-            update();
-        }
+        _state = state;
+        update();
     }
 
     void setColor(uint8_t red, uint8_t green, uint8_t blue) {
