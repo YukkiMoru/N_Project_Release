@@ -1,7 +1,6 @@
 #pragma once
 #include <Adafruit_NeoPixel.h>
 
-// 必要に応じて値を変更
 #define SLED_NUMPIXELS  1
 #define SLED_BRIGHTNESS 20
 
@@ -22,15 +21,23 @@ public:
         _pixels.setBrightness(SLED_BRIGHTNESS);
         update();
     }
+
     void set(SmartLEDState state) {
         if (_state != state) {
             _state = state;
             update();
         }
     }
+
+    void setColor(uint8_t red, uint8_t green, uint8_t blue) {
+        _pixels.fill(_pixels.Color(red, green, blue));
+        _pixels.show();
+    }
+
 private:
     Adafruit_NeoPixel _pixels;
     SmartLEDState _state;
+
     void update() {
         uint32_t color = 0;
         switch (_state) {
